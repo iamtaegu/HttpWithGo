@@ -1,12 +1,14 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
-	"github.com/k0kubun/pp"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httputil"
+
+	"github.com/k0kubun/pp"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -44,10 +46,23 @@ func handlerDigest(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	var httpServer http.Server
+	//var httpServer http.Server
+	server := &http.Server{
+		TLSConfig: &tls.Config{
+			ClientAuth: tls.RequestClientCert,
+			//ClientAuth: tls.RequireAndVerifyClientCert, //가장 엄격한 클라이언트 인증서를 요구
+			MinVersion: tls.VersionTLS12,
+		},
+		Addr: ":18443",
+	}
+
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/digest", handlerDigest)
-	log.Println("start http listening :18888")
-	httpServer.Addr = ":18888"
-	log.Println(httpServer.ListenAndServe())
+	//log.Println("start http listening :18888")
+	log.Println("start https listening :18443")
+	err := server.ListenAndServeTLS("../인증서/server.crt", "../인증서/server.key")
+	//err := http.ListenAndServeTLS(":18443", "../인증서/server.crt", "../인증서/server.key", nil)
+	//httpServer.Addr = ":18888"
+	//log.Println(httpServer.ListenAndServe())
+	log.Println(err)
 }
