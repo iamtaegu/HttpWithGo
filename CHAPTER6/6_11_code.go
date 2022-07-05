@@ -7,8 +7,8 @@ import (
 	"net/http/httputil"
 )
 
-func main() {
-	cert, err := tls.LoadX509KeyPair("../../인증서/client.crt", "../../인증서/client.key")
+func main_6_11() {
+	cert, err := tls.LoadX509KeyPair("../인증서/client.crt", "../인증서/client.key")
 	if err != nil {
 		panic(err)
 	}
