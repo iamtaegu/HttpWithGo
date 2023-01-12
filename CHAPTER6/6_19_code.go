@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func main() {
+func code_6_19() {
 	// TCP 소켓 열기
 	dialer := &net.Dialer{
 		Timeout:   30 * time.Second,

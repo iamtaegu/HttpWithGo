@@ -3,8 +3,14 @@ package main
 import (
 	"io/ioutil"
 	"log"
-	"net/http"
+	"net/http"	
 )
+
+func main () {
+	
+	code_6_1 ();
+	
+}
 
 func code_6_1() {
 	resp, err := http.Get("https://example.com")
